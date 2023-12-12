@@ -1,0 +1,64 @@
+{{!-- ESTA PLANTILLA DE HANDLEBARS NOS VA A SERVIR DE CLIENTE PARA HACER FUNCIONAR EL SOCKET.IO (WEBSOCKET) --}}
+{{!-- Aca estamos Usando el protocolo websocket del lado del Cliente --}}
+<div>
+
+    <br>
+    <h2> Carga de Productos Via Websocket</h2>
+    <br>
+    <h3> Formulario Para la Carga - Persistencia en Archivos Con Socket.io</h3>
+
+    <form action="http://localhost:8080/api/products" method="post" enctype="multipart/form-data">
+
+        <input type="text" name="title" placeholder="Nombre del Producto">
+        <br>
+        <input type="text" name="description" placeholder="Descripcion">
+        <br />
+        <input type="text" name="code" placeholder="Codigo">
+        <br>
+        <input type="text" name="status" placeholder="Status: true or false">
+        <br>
+        <input type="number" name="stock" placeholder="Cantidad">
+        <br>
+        <input type="text" name="category" placeholder="Categoria">
+        <br>
+        <input type="file" name="thumbnail">
+        <br>
+        <button onclick="sendMessage()" type="submit">Cargar</button>
+
+    </form>
+
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+{{!-- Escribimos TODO El codigo Directamente en el scritp que nos proporciona el Motor de plantillas Handlebars --}}
+<script>
+
+
+
+    // WEBSOCKET DEL LADO DEL CLIENTE 
+    // Paso 1: Creando una Instancia de socket.io para el CLIENTE 
+    const socketClient = io()
+
+    // Capturando los Datos enviados por el cliente - Obteniendo los datos del DOM POR SU id
+    //const message = document.getElementById('message')
+    //const received_messages = document.getElementById('received_messages')
+
+
+    // Paso 2: Poniendo a Escuchar el socketClient 
+    socketClient.on('message', data => {
+        // Consologuenado el mensaje que viene del servidor
+        console.log(data)
+    })
+
+
+    // Mensaje del Cliente al Servidor primer modelo
+    const sendMessage = () => {
+
+        socketClient.emit('message', { content: ' Envio de Datos del Cliente al Servidor' })
+
+    }
+    
+
+</script>
